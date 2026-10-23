@@ -99,9 +99,14 @@ Sidd prefers detailed explanations over brief ones.
 
 - Done: concept, literature survey (14 sources), synopsis, master build plan, team starter guide.
 - This folder: initial scaffold only (structure, docs, contracts, mock result). No module implemented yet.
-- Git initialised locally on `main` (no commits, no remote yet). CI lives in `.github/workflows/ci.yml` (ruff, mypy, pytest).
-  Local venv: `.venv` on Python 3.11 (the machine's default `py` is 3.14, so always use `py -3.11`).
-- Next: create the GitHub org + repo and push this scaffold; Week-1 checklist in `docs/build-plan.md` §11;
+- Repo live (public): https://github.com/vitalscan-aissms/vitalscan, org `vitalscan-aissms`.
+  CI in `.github/workflows/ci.yml` (job `test`: ruff, mypy, pytest) passes on `main`.
+- `main` is protected: PR + 1 approval (stale approvals dismissed), required `test` check,
+  branch up to date, conversations resolved, no force-push/delete. Admin bypass stays on until
+  a second reviewer joins, then switch it off.
+- Local venv: `.venv` on Python 3.11 (the machine's default `py` is 3.14, so always use `py -3.11`).
+- Next: invite Member 2 and Member 3; add CODEOWNERS, issue templates, `.gitattributes` and the
+  Projects board; rest of the Week-1 checklist in `docs/build-plan.md` §11;
   build the walking-skeleton pipeline and synthetic-signal generator.
 - Online versions of the docs (with diagrams): build plan https://claude.ai/artifact/Bmsp6bJ4QtnCGzDdiBzvZD ·
   starter guide https://claude.ai/artifact/PxEbWSN1ShWNRQtFTFLBDv
