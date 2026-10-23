@@ -1,0 +1,8 @@
+# Starting thresholds for M4 quality checks - tune on team recordings (good/dim light, still/moving).
+min_brightness: 60          # mean Y channel inside ROIs, 0-255
+max_overexposed_pct: 5.0    # % of ROI pixels above 250
+max_motion_score: 0.03      # std of nose-tip position / face width
+max_face_lost_ratio: 0.10
+max_multi_face_ratio: 0.05
+min_skin_pixels: 200
+min_duration_s: 15

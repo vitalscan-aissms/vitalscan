@@ -1,0 +1,43 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets
+.env
+*.env
+
+# Data, media and models (never commit)
+# datasets/ holds loader code (tracked) and downloaded data (ignored)
+datasets/**
+!datasets/**/
+!datasets/**/*.py
+!datasets/README.md
+outputs/
+models/
+*.mp4
+*.webm
+*.avi
+*.mov
+*.onnx
+*.pkl
+*.joblib
+*.task
+*.mat
+*.npz
+!backend/tests/fixtures/*.npz
+*.sqlite
+*.db
+
+# Notebooks checkpoints / OS / editors
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.claude/settings.local.json

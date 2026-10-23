@@ -1,0 +1,9 @@
+# MediaPipe Face Landmarker indices for ROI polygons (M3).
+# Starting points only - draw them on real faces and adjust (no eyebrows, hair or eyes).
+forehead: [10, 338, 297, 332, 284, 251, 21, 54, 103, 67, 109]
+left_cheek: [118, 119, 100, 126, 209, 49, 129, 203, 205, 50]
+right_cheek: [347, 348, 329, 355, 429, 279, 358, 423, 425, 280]
+skin_ycrcb:
+  cr: [133, 173]
+  cb: [77, 127]
+landmark_smoothing_frames: 3

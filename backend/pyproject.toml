@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vitalscan"
+version = "0.1.0"
+description = "Contactless vital-sign estimation from facial video (rPPG) - research use only"
+requires-python = ">=3.11,<3.12"
+# Pin exact versions with `pip freeze` once the first full install works on all three laptops.
+dependencies = [
+    "numpy",
+    "scipy",
+    "opencv-python",
+    "mediapipe",
+    "pyyaml",
+    "matplotlib",
+    "onnxruntime",
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "pydantic",
+    "sqlalchemy>=2.0",
+    "alembic",
+    "reportlab",
+    "qrcode",
+    "argon2-cffi",
+    "pyjwt",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "httpx", "ruff", "mypy", "pre-commit"]
+training = ["pandas", "scikit-learn", "xgboost", "lightgbm", "mat73", "skl2onnx", "onnxmltools"]
+
+[tool.setuptools.packages.find]
+include = ["vitalscan*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true   # mediapipe, cv2, reportlab etc. ship no type stubs
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
