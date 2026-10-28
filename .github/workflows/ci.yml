@@ -22,6 +22,6 @@ jobs:
       - name: Lint
         run: ruff check backend
       - name: Type check
-        run: mypy backend/vitalscan
+        run: mypy --config-file backend/pyproject.toml backend/vitalscan
       - name: Test
         run: pytest backend
