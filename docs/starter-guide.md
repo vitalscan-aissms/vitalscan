@@ -367,13 +367,16 @@ Keep the thresholds in `configs/quality.yaml`. Record yourself in good light, di
 
 ### M8 — `ml_models` (BP model): pulse features → BP estimate (train on Colab, run on the server)
 
-1. **Get PulseDB** from its GitHub page (section 10). The files are MATLAB v7.3 `.mat` files with 10-second segments of ECG, PPG and arterial BP, plus SBP/DBP labels and age, gender, height, weight. Load them in Python with the `mat73` package. Start with the ready-made `Train_Subset.mat` and `CalFree_Test_Subset.mat`.
-2. **Extract features per segment** (write these as functions in `training/features.py` so the server reuses the exact same code):
-   - Heart rate and beat-to-beat interval variation
-   - Per beat: rise time (foot → peak), pulse width at 25/50/75% height, peak amplitude ratio, systolic vs diastolic area ratio
-   - From the first and second derivative of the wave (VPG/APG): position and height of their main peaks
-   - Demographics: age, sex, BMI
-   - The *Feature selection* paper in our project files lists the 24 features it used; compare against it.
+1. **Get PulseDB** (section 10). The files are MATLAB v7.3 `.mat` files with 10-second segments of ECG, PPG and arterial BP, plus SBP/DBP labels and age, gender, height, weight. Load them in Python with the `mat73` package. The ready-made `Train_Subset.mat` files are **not** hosted: PulseDB generates them with a MATLAB script from very large raw files. So **start with the VitalDB part on Kaggle** ("PulseDB Supplementary Subsets"), and work in a Kaggle notebook so nothing has to be downloaded. The VitalDB part is also the only part with height and weight (needed for BMI).
+2. **Extract features per segment** with `backend/vitalscan/ml_models/features.py` (already written, with tests). It lives inside the backend package, not in `training/`, so the server imports *exactly* the same code:
+   ```python
+   from vitalscan.ml_models.features import camera_match, extract_features
+   row = extract_features(camera_match(ppg, fs=125), fs=30)
+   ```
+   - `camera_match` first makes the clean finger signal look like our webcam signal (30 Hz, same band-pass as M6). Skipping it would teach the model details a webcam never sees. This is research question RQ3.
+   - Features: heart rate and beat-interval variation; per beat rise/fall time, width at 25/50/75 % height, diastolic ÷ systolic area; first/second-derivative (VPG/APG) features. The module README explains each one.
+   - Add demographics in the training script: age, sex, BMI.
+   - The *Feature selection* paper in our project files lists the 24 features it used; compare against it, and add any that survive 30 Hz.
 3. **Split by subject, never by segment.** The same person must never be in both training and test data, or the scores will look far better than reality. Use scikit-learn `GroupKFold` with the subject ID as the group.
 4. **Train and compare:** a baseline that always predicts the training mean → Linear regression → Random Forest → XGBoost → LightGBM. Later, a small neural net or CNN-LSTM on the raw wave. Report MAE, RMSE, R² and Pearson r as mean ± SD over folds.
 5. **Export** the best tree model to ONNX (`skl2onnx` for scikit-learn models; `onnxmltools` for XGBoost/LightGBM). Check that the ONNX model gives the same predictions as the Python model on 100 samples.
@@ -545,7 +548,7 @@ You own the signal core that turns colour traces into vitals (M5–M7), the pipe
 
 - [ ] Repo, CI, branch protection, Projects board (Master Build Plan, section 4)
 - [ ] `docs/contracts.md` + `tests/fixtures/mock_result.json` + `tests/fixtures/sample_traces.npz`
-- [ ] `training/synthetic.py`: makes fake RGB traces with a known heart rate, so every signal function can be tested against a known answer:
+- [ ] Synthetic signals in `backend/vitalscan/utils/synthetic.py` (inside the package so tests and training can both import it). `synthetic_ppg` (a fake finger PPG) is done; still to add: fake RGB traces with a known heart rate, so every signal function can be tested against a known answer:
 
 ```python
 def synthetic_traces(hr_bpm: float = 72, seconds: float = 30, fps: float = 30,

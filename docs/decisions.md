@@ -4,6 +4,10 @@ Date · decision · why. Newest first. This becomes part of the thesis methodolo
 
 | Date | Decision | Why |
 | --- | --- | --- |
+| 2026-10-29 | BP features live in `backend/vitalscan/ml_models/features.py`, not `training/` | The server can only import the installed package; training and inference must run identical feature code |
+| 2026-10-29 | PulseDB PPG is "camera-matched" (125 → 30 Hz + M6 detrend/band-pass) before feature extraction | Features must be ones a webcam can produce; otherwise the BP model fails on faces (RQ3) |
+| 2026-10-29 | Start BP training on PulseDB's VitalDB subset on Kaggle | Ready-made MIMIC subsets need MATLAB + very large downloads; MIMIC lacks height/weight (no BMI); free Drive is 15 GB |
+| 2026-10-29 | Add the Mendeley iPPG + BP set (CN-BP, VV-Small) as an early RQ3 test; CLBP-300 only as a paid backup | Vital Videos access is pending; the Mendeley set is free (CC BY 4.0) but small and has no videos |
 | 2026-10-24 | M8 package is named `ml_models` (not `bp_model`); training code stays in `training/` | Folder already existed; it holds inference only |
 | 2026-10-24 | CI runs `ruff`, `mypy` and `pytest` | Type hints are a coding standard; catch errors before review |
 | 2026-10-24 | Moved project work to a local repo used from the Claude desktop app Code tab; context lives in `CLAUDE.md` | Keep plan, code and docs together in one place |
