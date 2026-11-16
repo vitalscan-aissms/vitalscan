@@ -5,3 +5,4 @@ Add yourself with your first pull request (see `docs/starter-guide.md`, section 
 | Name | Role | GitHub username |
 | --- | --- | --- |
 | Siddhanth Waghmare | Signal & integration lead | |
+| Utkarshani Sinha | Vision & ML engineer (M1–M4, M8) | @UtkarshaniSinha |
